@@ -79,7 +79,7 @@ https://uf-api-fastapi.onrender.com
 #### Ejemplo de Solicitud
 
 ```http
-GET https://uf-api-fastapi.onrender.com/get_single_uf/?day=19&month=8&year=2024
+https://uf-api-fastapi.onrender.com/get_single_uf/?day=19&month=8&year=2024
 ```
 
 #### Respuestas
@@ -133,7 +133,7 @@ GET https://uf-api-fastapi.onrender.com/get_single_uf/?day=19&month=8&year=2024
 #### Ejemplo de Solicitud
 
 ```http
-GET https://uf-api-fastapi.onrender.com/get_monthly_uf/?month=8&year=2024
+https://uf-api-fastapi.onrender.com/get_monthly_uf/?month=8&year=2024
 ```
 
 #### Respuestas
