@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, Dict
 from pydantic import BaseModel
 
 class UFResponse(BaseModel):
@@ -10,3 +10,11 @@ class UFResponse(BaseModel):
     """
     uf_value: Union[str, float]
     date: str
+
+class UFDictResponse(BaseModel):
+    """
+    Modelo de respuesta para los valores de UF.
+    
+    - **uf_values**: Diccionario con los valores de UF para cada día del mes.
+    """
+    uf_values: Dict[str, Union[str, float]]

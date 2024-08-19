@@ -13,15 +13,20 @@ La raíz de la API (`/`) proporciona un mensaje de bienvenida que confirma que l
 """
 
 from fastapi import FastAPI
-from api.endpoints.single_uf import router as single_uf_router
-from api.endpoints.monthly_uf import router as monthly_uf_router
+from .endpoints.single_uf import router as single_uf_router
+from .endpoints.monthly_uf import router as monthly_uf_router
 
 
 app = FastAPI()
 
 @app.get("/")
 def read_root():
-    return {"Hello": "Health check baby"}
+    """
+    Esta función maneja una solicitud GET a la ruta raíz ("/") de la API.
+    Devuelve un mensaje de confirmación para verificar que la API está 
+    en funcionamiento y respondiendo correctamente.
+    """
+    return {"message": "Health check baby"}
 
 # Incluye las rutas para obtener el valor de UF para una fecha específica
 app.include_router(single_uf_router)

@@ -24,17 +24,27 @@ pip install -r requirements.txt
 
 ```text
 .
-├── endpoints/
-│   ├── monthly_uf.py
-│   ├── single_uf.py
-│   ├── README.md
-├── schemas/
-│   ├── response.py
-├── utils/
-│   ├── constants.py
-│   ├── get_uf.py
+├── api
+│   ├── __init__.py
+│   ├── main.py
+│   ├── endpoints
+│   │   ├── __init__.py
+│   │   ├── monthly_uf.py
+│   │   └── single_uf.py
+│   ├── models
+│   │   ├── __init__.py
+│   │   └── response.py
+│   └── utils
+│       ├── __init__.py
+│       ├── constants.py
+│       └── get_uf.py
+├── env
+├── test
+│   ├── __init__.py
+│   └── test_main.py
+│   └── test_monthly_uf.py
+│   └── test_single_uf.py
 ├── .gitignore
-├── main.py
 ├── README.md
 ├── requirements.txt
 
@@ -47,7 +57,22 @@ uvicorn api.main:app --reload
 ```
 
 Sirviendo en: http://127.0.0.1:8000
-Documentación interactiva de la API: http://127.0.0.1:8000/docs
+
+Puedes probar la api desde la `documentación` interactiva: http://127.0.0.1:8000/docs
+
+## Pruebas unitarias
+
+### Pruebas unitarias
+
+Este proyecto incluye un conjunto completo de pruebas unitarias para validar el funcionamiento de los endpoints de la API. Las pruebas están dentro de la carpeta `test`, donde encontrarás por separado las pruebas correspondientes a cada endpoint.
+
+Estas pruebas utilizan `pytest` y `fastapi.testclient` para verificar distintos aspectos de la API.
+
+### Ejecutar las pruebas
+
+```bash
+pytest
+```
 
 ## Uso
 

@@ -1,18 +1,18 @@
 from datetime import datetime
-from typing import List, Union
+from typing import Union
 from fastapi import APIRouter, HTTPException, Query
-from api.models.response import UFResponse
 
+from api.models.response import UFDictResponse
 from api.utils.constants import MINIMUM_DATE
 from api.utils.get_uf import get_uf
 
 router = APIRouter()
 
-@router.get("/get_monthly_uf", response_model=List[UFResponse])
+@router.get("/get_monthly_uf", response_model=UFDictResponse)
 def get_monthly_uf(
     month: int = Query(..., ge=1, le=12),
     year: int = Query(..., ge=2013)  # Mayor o igual a 2013
-) -> List[UFResponse]:
+) -> UFDictResponse:
     """
     Obtiene los valores de UF para un mes y año específicos.
 
@@ -34,18 +34,22 @@ def get_monthly_uf(
         url: str = f'https://www.sii.cl/valores_y_fechas/uf/uf{year}.htm'
 
         try:
-            uf_values: List[UFResponse] = []
+            uf_values: UFDictResponse = {}
             for day in range(1, 32):
                 try:
                     datetime(year, month, day)
                     uf_value: Union[str, float] = get_uf(url, day, month)
-                    uf_values.append(UFResponse(date=f'{day:02d}/{month:02d}/{year}', uf_value=uf_value))
+                    if not uf_value:
+                        break
+                    uf_values[f'{day:02d}/{month:02d}/{year}'] = uf_value
                 except ValueError:
                     # Día no válido para el mes
                     break
-            return uf_values
+            if not uf_values:
+                raise HTTPException(status_code=404, detail='no se encontraron valores de UF para el mes y año especificados.')
+            return UFDictResponse(uf_values=uf_values) # Devolvemos una instancia del modelo UFDictResponse como respuesta
         except RuntimeError as e:
             raise HTTPException(status_code=500, detail=str(e)) from e
 
     except (ValueError, TypeError) as e:
-        raise HTTPException(status_code=422, detail='Los parámetros de fecha no son válidos.') from e
+        raise HTTPException(status_code=400, detail='Los parámetros de fecha no son válidos.') from e

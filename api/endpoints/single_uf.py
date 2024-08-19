@@ -1,8 +1,8 @@
 from datetime import datetime
 from typing import Union
 from fastapi import APIRouter, HTTPException, Query
-from api.models.response import UFResponse
 
+from api.models.response import UFResponse
 from api.utils.constants import MINIMUM_DATE
 from api.utils.get_uf import get_uf
 
@@ -33,7 +33,9 @@ def get_single_uf(
             url: str = f'https://www.sii.cl/valores_y_fechas/uf/uf{year}.htm'
             try:
                 uf_value: Union[str, float] = get_uf(url, day, month)
-                return UFResponse(uf_value=uf_value, date=selected_date.strftime('%d/%m/%Y'))
+                if uf_value:
+                    return UFResponse(uf_value=uf_value, date=selected_date.strftime('%d/%m/%Y'))
+                raise HTTPException(status_code=404, detail='No se encontraron valores de UF para la fecha especificada.')
             except RuntimeError as e:
                 raise HTTPException(status_code=500, detail=str(e)) from e
         else:
