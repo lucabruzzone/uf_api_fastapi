@@ -21,7 +21,7 @@ def get_monthly_uf(
 
     Retorna una lista de objetos `UFResponse` que contienen el valor de UF y la fecha para cada día del mes especificado.
 
-    - Si la fecha solicitada es anterior al 1 de enero de 2013, se devuelve un error 400.
+    - Si la fecha solicitada es anterior al 1 de enero de 2013 o si los parámetros son inválidos, se devuelve un error 422.
     - Si ocurre un error al obtener los valores de UF, se devuelve un error 500.
     - Si el día no es válido para el mes (por ejemplo, 30 de febrero), se omite y se detiene el proceso para ese mes.
     """
@@ -29,7 +29,7 @@ def get_monthly_uf(
         selected_date = datetime(year, month, 1)
 
         if selected_date < MINIMUM_DATE:
-            raise HTTPException(status_code=400, detail='La fecha debe ser posterior al 1 de enero de 2013.')
+            raise HTTPException(status_code=422, detail='La fecha debe ser posterior al 1 de enero de 2013.')
 
         url: str = f'https://www.sii.cl/valores_y_fechas/uf/uf{year}.htm'
 
@@ -48,4 +48,4 @@ def get_monthly_uf(
             raise HTTPException(status_code=500, detail=str(e)) from e
 
     except (ValueError, TypeError) as e:
-        raise HTTPException(status_code=400, detail='Los parámetros de fecha no son válidos.') from e
+        raise HTTPException(status_code=422, detail='Los parámetros de fecha no son válidos.') from e

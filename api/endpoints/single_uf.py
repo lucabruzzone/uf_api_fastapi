@@ -12,7 +12,7 @@ router = APIRouter()
 def get_single_uf(
     day: int = Query(..., ge=1, le=31),
     month: int = Query(..., ge=1, le=12),
-    year: int = Query(..., gt=2012)  # Mayor o igual a 2013
+    year: int = Query(..., ge=2013)  # Mayor o igual a 2013
 ) -> UFResponse:
     """
     Obtiene el valor de UF para un día, mes y año específicos.

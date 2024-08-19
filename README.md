@@ -27,7 +27,7 @@ uvicorn api.main:app --reload
 
 La `documentación` interactiva de la API está disponible en:
 
-[http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+[https://uf-api-fastapi.onrender.com/docs](https://uf-api-fastapi.onrender.com/docs)
 
 ## Estructura de carpetas
 
