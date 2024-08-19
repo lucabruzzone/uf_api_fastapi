@@ -19,6 +19,10 @@ from api.endpoints.monthly_uf import router as monthly_uf_router
 
 app = FastAPI()
 
+@app.get("/")
+def read_root():
+    return {"Hello": "Health check baby"}
+
 # Incluye las rutas para obtener el valor de UF para una fecha específica
 app.include_router(single_uf_router)
 

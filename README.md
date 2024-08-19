@@ -51,18 +51,24 @@ Documentación interactiva de la API: http://127.0.0.1:8000/docs
 
 ## Uso
 
+### URL BASE
+
+```bash
+https://uf-api-fastapi.onrender.com
+```
+
+#### Respuesta
+
+```json
+{ "Hello": "Health check baby" }
+```
+
 ### Endpoints Disponibles
 
 - **Obtener el valor UF para un día específico**: Permite consultar el valor de la UF para una fecha específica (día, mes y año).
 - **Obtener los valores UF para un mes específico**: Permite consultar los valores de la UF para todos los días de un mes y año específicos.
 
 Para más detalles sobre cómo utilizar estos endpoints y los parámetros requeridos, por favor consulta la `documentación interactiva` en el siguient enlace: https://uf-api-fastapi.onrender.com/docs
-
-### URL BASE
-
-```bash
-https://uf-api-fastapi.onrender.com
-```
 
 ### 1. Obtener el valor de la UF para una fecha específica
 

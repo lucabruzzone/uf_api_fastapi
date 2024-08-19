@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import List, Union
 from fastapi import APIRouter, HTTPException, Query
-from api.schemas.response import UFResponse
+from api.models.response import UFResponse
 
 from api.utils.constants import MINIMUM_DATE
 from api.utils.get_uf import get_uf
