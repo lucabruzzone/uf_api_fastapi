@@ -23,9 +23,8 @@ def get_single_uf(
 
     Retorna un objeto `UFResponse` que contiene el valor de UF y la fecha para el día especificado.
 
-    - Si la fecha solicitada es anterior al 1 de enero de 2013, se devuelve un error 400.
-    - Si ocurre un error al obtener el valor de UF, se devuelve un error 500.
-    - Si los parámetros de fecha son inválidos, se devuelve un error 400.
+    - Si la fecha solicitada es anterior al 1 de enero de 2013 o si los parámetros son inválidos, se devuelve un error 422.
+    - Si ocurre un error al obtener los valores de UF, se devuelve un error 500.
     """
     try:
         selected_date = datetime(year, month, day)
