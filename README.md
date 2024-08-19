@@ -2,12 +2,15 @@
 
 Esta API proporciona información sobre el valor de la Unidad de Fomento (UF) en Chile. Permite consultar el valor de la UF para un día específico o para todos los días de un mes en particular.
 
-## Endpoints Disponibles
+## Implementación
 
-- **Obtener el valor UF para un día específico**: Permite consultar el valor de la UF para una fecha específica (día, mes y año).
-- **Obtener los valores UF para un mes específico**: Permite consultar los valores de la UF para todos los días de un mes y año específicos.
+### Dependencias
 
-Para más detalles sobre cómo utilizar estos endpoints y los parámetros requeridos, por favor consulta la documentación completa.
+Asegúrate de tener las siguientes dependencias instaladas:
+
+- `fastapi[standard]`
+- `beautifulsoup4`
+- `uvicorn`
 
 ### Instalación
 
@@ -17,19 +20,7 @@ Para instalar las dependencias necesarias, ejecuta:
 pip install -r requirements.txt
 ```
 
-### Ejecutar el Servidor
-
-```bash
-uvicorn api.main:app --reload
-```
-
-## Documentación
-
-La `documentación` interactiva de la API está disponible en:
-
-[https://uf-api-fastapi.onrender.com/docs](https://uf-api-fastapi.onrender.com/docs)
-
-## Estructura de carpetas
+### Estructura de carpetas
 
 ```text
 .
@@ -48,3 +39,21 @@ La `documentación` interactiva de la API está disponible en:
 ├── requirements.txt
 
 ```
+
+### Ejecutar el Servidor
+
+```bash
+uvicorn api.main:app --reload
+```
+
+Sirviendo en: http://127.0.0.1:8000
+Documentación de la API: http://127.0.0.1:8000/docs
+
+## Uso
+
+### Endpoints Disponibles
+
+- **Obtener el valor UF para un día específico**: Permite consultar el valor de la UF para una fecha específica (día, mes y año).
+- **Obtener los valores UF para un mes específico**: Permite consultar los valores de la UF para todos los días de un mes y año específicos.
+
+Para más detalles sobre cómo utilizar estos endpoints y los parámetros requeridos, por favor consulta la `documentación` completa en el siguient enlace: https://uf-api-fastapi.onrender.com/docs
