@@ -3,7 +3,7 @@ from typing import Union
 from fastapi import APIRouter, HTTPException, Query
 
 from api.models.response import UFResponse
-from api.utils.constants import MINIMUM_DATE
+from api.utils import constants
 from api.utils.get_uf import get_uf
 
 router = APIRouter()
@@ -22,24 +22,18 @@ def get_single_uf(
     - **year**: Año (mayor a 2012).
 
     Retorna un objeto `UFResponse` que contiene el valor de UF y la fecha para el día especificado.
-
-    - Si la fecha solicitada es anterior al 1 de enero de 2013 o si los parámetros son inválidos, se devuelve un error 422.
-    - Si ocurre un error al obtener los valores de UF, se devuelve un error 500.
     """
     try:
         selected_date = datetime(year, month, day)
-
-        if selected_date >= MINIMUM_DATE:
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=f'Los parámetros de fecha no son válidos. {e}') from e
+    try:
+        if selected_date >= constants.MIN_DATE:
             url: str = f'https://www.sii.cl/valores_y_fechas/uf/uf{year}.htm'
-            try:
-                uf_value: Union[str, float] = get_uf(url, day, month)
-                if uf_value:
-                    return UFResponse(uf_value=uf_value, date=selected_date.strftime('%d/%m/%Y'))
-                raise HTTPException(status_code=404, detail='No se encontraron valores de UF para la fecha especificada.')
-            except RuntimeError as e:
-                raise HTTPException(status_code=500, detail=str(e)) from e
-        else:
-            raise HTTPException(status_code=400, detail='La fecha debe ser posterior al 1 de enero de 2013.')
-
-    except (ValueError, TypeError) as e:
-        raise HTTPException(status_code=400, detail='Los parámetros de fecha no son válidos.') from e
+            uf_value: Union[str, float] = get_uf(url, day, month)
+            if uf_value:
+                return UFResponse(uf_value=uf_value, date=selected_date.strftime('%d/%m/%Y'))
+            raise HTTPException(status_code=404, detail="No se encontró un valor UF para la fecha especificada.")
+        raise HTTPException(status_code=400, detail='La fecha debe ser posterior al 1 de enero de 2013.')
+    except Exception as e:
+        raise e

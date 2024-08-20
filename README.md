@@ -34,19 +34,21 @@ pip install -r requirements.txt
 │   ├── models
 │   │   ├── __init__.py
 │   │   └── response.py
-│   └── utils
-│       ├── __init__.py
-│       ├── constants.py
-│       └── get_uf.py
+│   ├── utils
+│   │   ├── __init__.py
+│   │   ├── constants.py        # Define las constantes globales
+│   │   └── get_uf.py           # Función que realiza el scraping
 ├── env
 ├── test
 │   ├── __init__.py
-│   └── test_main.py
-│   └── test_monthly_uf.py
-│   └── test_single_uf.py
+│   ├── test_main.py           # Pruebas para main.py
+│   ├── test_get_uf.py         # Pruebas para get_uf.py
+│   ├── test_monthly_uf.py     # Pruebas para monthly_uf.py
+│   └── test_single_uf.py      # Pruebas para single_uf.py
 ├── .gitignore
 ├── README.md
 ├── requirements.txt
+
 
 ```
 

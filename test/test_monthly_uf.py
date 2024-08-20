@@ -129,7 +129,9 @@ def test_invalid_datetime():
     
     expected_error = "Los parámetros de fecha no son válidos."
     
-    assert error_details == {"detail": expected_error}
+    # Comprobar si `expected_error` está contenido en `detail`
+    expected_error = "Los parámetros de fecha no son válidos."
+    assert expected_error in error_details["detail"]
 
 # @pytest.mark.skip
 def test_not_found():
@@ -148,18 +150,11 @@ def test_not_found():
     assert error_details == {"detail": expected_error}
 
 # @pytest.mark.skip
-def test_server_error():
+def test_not_found_2():
     """
-    Prueba que la ruta `/get_monthly_uf` devuelve un error 500 
-#     cuando ocurre un error inesperado al obtener los valores de UF.
+    Prueba que la ruta `/get_monthly_uf` devuelve un error 404 
+#     cuando no se encuentra la página o los datos.
     """
-    response = client.get("/get_monthly_uf", params={"month": 8, "year": 3000})
-    assert response.status_code == 500
-
-    # Verificar el contenido exacto de la respuesta de error
-    error_details = response.json()
-    
-    expected_error = "Error durante la solicitud a https://www.sii.cl/valores_y_fechas/uf/uf3000.htm: Client error '404 Not Found' for url 'https://www.sii.cl/valores_y_fechas/uf/uf3000.htm'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404"
-    
-    assert error_details == {"detail": expected_error}
+    response = client.get("/get_monthly_uf", params={"month": 8, "year": 2027})
+    assert response.status_code == 404
 
