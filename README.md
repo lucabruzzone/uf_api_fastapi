@@ -27,6 +27,7 @@ pip install -r requirements.txt
 ├── api
 │   ├── __init__.py
 │   ├── main.py
+│   ├── config.py               # Configuración global de la API
 │   ├── endpoints
 │   │   ├── __init__.py
 │   │   ├── monthly_uf.py
