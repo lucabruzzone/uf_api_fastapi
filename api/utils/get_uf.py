@@ -4,17 +4,17 @@ import httpx
 from bs4 import BeautifulSoup
 from fastapi import HTTPException
 
-from api.utils import constants
+from api import config
 
 # LRU Cache para la función de obtener UF
-@lru_cache(constants.MAX_CACHE_SIZE)
+@lru_cache(config.cache_init.max_cache_size)
 def get_uf(url: str, day: int, month: int) -> Union[str, None]:
     
-    custom_header: dict[str, str] = {'user-Agent': constants.USER_AGENT}
+    custom_header: dict[str, str] = {'user-Agent': config.header_http_init.user_agent}
     with httpx.Client() as client:
-        # Agregar un tiempo de espera constants.GET_UF_TIMEOUT en segundos
+        # Agregar un tiempo de espera en segundos
         try:
-            res = client.get(url, headers=custom_header, timeout=constants.GET_UF_TIMEOUT)
+            res = client.get(url, headers=custom_header, timeout=config.timeout_init.get_uf_timeout)
             res.raise_for_status()  # Lanza un error si la solicitud falla
         except httpx.HTTPStatusError as e:
             # Manejo específico del error 404
@@ -28,19 +28,19 @@ def get_uf(url: str, day: int, month: int) -> Union[str, None]:
 
         try:
             soup = BeautifulSoup(res.text, 'html.parser')
-            table = soup.find('table', id=constants.TABLE_ID)
+            table = soup.find('table', id=config.scraping_init.table_id)
             if table is None:
-                raise ValueError(f"No se encontró la tabla con el id {constants.TABLE_ID}.")
-            table_body = table.find(constants.TABLE_BODY_LABEL)
+                raise ValueError(f"No se encontró la tabla con el id {config.scraping_init.table_id}.")
+            table_body = table.find(config.scraping_init.table_body_label)
             if table_body is None:
-                raise ValueError(f"No se encontró el cuerpo de la tabla con la etiqueta {constants.TABLE_BODY_LABEL}.")
-            rows = table_body.find_all(constants.ROWS_LABEL)
+                raise ValueError(f"No se encontró el cuerpo de la tabla con la etiqueta {config.scraping_init.table_body_label}.")
+            rows = table_body.find_all(config.scraping_init.rows_label)
             if not rows:
-                raise ValueError(f"No se encontraron filas con la etiqueta {constants.ROWS_LABEL}.")
+                raise ValueError(f"No se encontraron filas con la etiqueta {config.scraping_init.rows_label}.")
             current_row = rows[day - 1]
-            months = current_row.find_all(constants.ROW_ELEMENTS_LABEL)
+            months = current_row.find_all(config.scraping_init.row_elements_label)
             if not months:
-                raise ValueError(f"No se encontraron elementos con la etiqueta {constants.ROW_ELEMENTS_LABEL}.")
+                raise ValueError(f"No se encontraron elementos con la etiqueta {config.scraping_init.row_elements_label}.")
             current_month = months[month - 1]
             value = current_month.text.strip()
             if value:

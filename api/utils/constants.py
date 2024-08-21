@@ -20,7 +20,7 @@ MIN_DAY: int = 1
 MAX_DAY: int = 31
 
 # Fechas mínimas
-MIN_DATE = datetime(2013, 1, 1)
+MIN_DATE: datetime = datetime(2013, 1, 1)
 
 # Etiquetas HTML
 TABLE_ID = 'table_export'
@@ -28,5 +28,6 @@ TABLE_BODY_LABEL = 'tbody'
 ROWS_LABEL = 'tr'
 ROW_ELEMENTS_LABEL = 'td'
 
+# Header HTTP para solicitudes HTTP
 # Agente de usuario para solicitudes HTTP
 USER_AGENT: dict[str, str] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'

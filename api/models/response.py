@@ -18,3 +18,4 @@ class UFDictResponse(BaseModel):
     - **uf_values**: Diccionario con los valores de UF para cada día del mes.
     """
     uf_values: Dict[str, Union[str, float]]
+    uf_average: Union[str, float]

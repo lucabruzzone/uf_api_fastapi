@@ -3,7 +3,7 @@ from typing import Union
 from fastapi import APIRouter, HTTPException, Query
 
 from api.models.response import UFResponse
-from api.utils import constants
+from api import config
 from api.utils.get_uf import get_uf
 
 router = APIRouter()
@@ -27,13 +27,17 @@ def get_single_uf(
         selected_date = datetime(year, month, day)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=f'Los parámetros de fecha no son válidos. {e}') from e
+    
     try:
-        if selected_date >= constants.MIN_DATE:
+        if selected_date >= config.date_init.min_date:
             url: str = f'https://www.sii.cl/valores_y_fechas/uf/uf{year}.htm'
             uf_value: Union[str, float] = get_uf(url, day, month)
             if uf_value:
-                return UFResponse(uf_value=uf_value, date=selected_date.strftime('%d/%m/%Y'))
+                uf_float_value = float(uf_value.replace('.', '').replace(',', '.')) # Convertimos el valor de UF a float para conseguir un formato numérico más universal
+                uf_float_str = f"{uf_float_value:.2f}" # Convertimos el valor de UF a string con 2 decimales para mantener el tipo de dato original
+                return UFResponse(uf_value=uf_float_str, date=selected_date.strftime('%d/%m/%Y'))
             raise HTTPException(status_code=404, detail="No se encontró un valor UF para la fecha especificada.")
         raise HTTPException(status_code=400, detail='La fecha debe ser posterior al 1 de enero de 2013.')
+    
     except Exception as e:
         raise e
